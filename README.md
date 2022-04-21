@@ -1,0 +1,2 @@
+# Exercise-FudanNLPbeginner
+复旦邱锡鹏老师的自然语言处理入门练习作业
