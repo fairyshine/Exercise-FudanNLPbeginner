@@ -67,7 +67,7 @@ def Eval():
     for i in range(end-testnum,end):
         if SoftmaxRegression(testset['Phrase'][i]) == testset['Sentiment'][i]:
             goal += 1
-    print(goal/testnum)
+
     return goal/testnum
 
 
@@ -98,10 +98,19 @@ w.to_csv('Dataset/w.csv')
 w=pd.read_csv('Dataset/w.csv')
 w=pd.DataFrame(np.array(w)[:,1:]) #修正存储格式
 
-for i in range(1):
+flag=1
+epochs=1
+score=0
+score_old=-1
+while flag:
     Train_1_epoch()
-
-Eval()
+    score=Eval()
+    print("epoch"+str(epochs)+":"+str(score))
+    if score-score_old <0.01 and epochs>=10 :
+        flag=0
+    else:
+        score_old=score
+        epochs+=1
 
 #存储学习成果
 w.to_csv('Dataset/w.csv')
