@@ -144,7 +144,7 @@ PyTorch重写Task1
 
 ### TextCNN.pynb 
 
-![TextCNN](/Users/wumengsong/Code/Github/FudanNLPbeginner/pic/TextCNN.png)
+![TextCNN](pic/TextCNN.png)
 
 ```python
 import json
