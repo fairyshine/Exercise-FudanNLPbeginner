@@ -52,6 +52,16 @@ Softmax回归.ipynb
 
 ---
 
+可作实验：
+
+shuffle ：打乱序列里的元素，随机排列
+
+参数更新：batch  遍历全部数据集算一次Loss
+
+​					mini-batch  数据集分拆成小批量，按小批量更新参数
+
+---
+
 改进：
 
 1.数据集的存取方式，pandas.DataFrame有些细节没处理好
@@ -60,11 +70,32 @@ Softmax回归.ipynb
 
 3.主要函数的参数输入没弄好，不方便单条数据测试
 
-4.函数运行效率优化
+4.函数运行效率优化（特征向量采用字典？）
 
 由于之后主要采用各类框架，任务1不准备作进一步优化了。
 
 # Task 2 
+
+PyTorch重写Task1
+
+流程：
+
+（1）词嵌入 Word Embedding：使用word2vec？
+
+文本表示的类型：
+
+- 基于one-hot、tf-idf、textrank等的bag-of-words；
+- 主题模型：LSA（SVD）、pLSA、LDA；
+- 基于词向量的固定表征：word2vec、fastText、glove
+- 基于词向量的动态表征：ELMO、GPT、bert
+
+（2）CNN/RNN的分类器
+
+​		1）
+
+​		2）dropout
+
+（3）训练
 
 # Task 3
 
