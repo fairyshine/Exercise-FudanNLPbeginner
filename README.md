@@ -144,6 +144,8 @@ PyTorch重写Task1
 
 ### TextCNN.pynb 
 
+![TextCNN](/Users/wumengsong/Code/Github/FudanNLPbeginner/pic/TextCNN.png)
+
 ```python
 import json
 
@@ -159,7 +161,9 @@ print(max)
 
  据分析：Phrase最大句长为52，故设置矩阵高度为60
 
+使用nn.Embedding将单词（.lower()小写化）转化为embedding格式
 
+神经网络结构是比较简单的，注意因为卷积核是4维的，数据输入也应该是4维。
 
 # Task 3
 
