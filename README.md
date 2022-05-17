@@ -6,7 +6,7 @@
 
 
 
-## Task 1 NumPy文本分类
+# Task 1 NumPy文本分类
 
 多分类问题（分成5类）C=5
 
