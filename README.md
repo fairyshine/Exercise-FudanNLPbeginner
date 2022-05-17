@@ -91,11 +91,75 @@ PyTorch重写Task1
 
 （2）CNN/RNN的分类器
 
-​		1）
-
-​		2）dropout
-
 （3）训练
+
+---
+
+### Dataprocess.ipynb 处理数据集
+
+#### 1 构造 word embedding字典
+
+1.1
+
+根据编号，train.tsv和test.tsv 共222352条phrase
+
+将这些短句分割为单词，全部字母小写化，得到19479个词(或标点)。
+
+根据出现频率倒序储存在字典列表wordFreq中，保存于文件Dateset/wordFreq.jsonl
+
+1.2
+
+将word embedding字典存储，word<—>序号
+
+保存于文件Dataset/word_To_num.json、Dataset/num_To_word.json
+
+#### 2 转换成jsonl格式，分割数据集
+
+2.1
+
+原格式：tsv 有PhraseId、SentenceId、Phrase、Sentiment
+
+现格式： (使用pandas库，这里要先把几个数字转化为字符串储存，在单独转化为数字)
+
+```json
+{
+  "PhraseId":, //超过int16范围，转换为字符串
+  "SentenceId":,
+  "Phrase":" ",
+  "Sentiment": //0-4间的整数，2无情感，4为喜欢，0为讨厌
+}
+```
+
+2.2
+
+短句共156060条
+
+0-140453 为训练集 ，保存为 Dataset/train.jsonl
+
+140454-156059 为测试集，保存为 Dataset/test.jsons
+
+> 两数据集连接处可能有短句相叠，不够严谨，但无伤大雅。
+
+---
+
+### TextCNN.pynb 
+
+```python
+import json
+
+max=0
+with open('Dataset/Dataset.jsonl','r') as f:
+        for line in f:
+            data=json.loads(line)
+            temp=len(data['Phrase'].split(' '))
+            if temp>max:
+                max=temp;
+print(max)
+```
+
+ 据分析：Phrase最大句长为52，故设置矩阵高度为60
+
+
 
 # Task 3
 
