@@ -161,11 +161,17 @@ print(max)
 
  据分析：Phrase最大句长为52，故设置矩阵高度为60
 
-使用nn.Embedding将单词（.lower()小写化）转化为embedding格式
+经验总结：
 
-神经网络结构是比较简单的，注意因为卷积核是4维的，数据输入也应该是4维。
+（1）使用nn.Embedding将单词（.lower()小写化）转化为embedding格式
+
+（2）神经网络结构是比较简单的，注意因为卷积核是4维的，数据输入也应该是4维。
+
+（3）注意torch包内各函数接口采用的数据格式！！比如nn.CrossEntropyLoss()，标签必须是一维的，而非神经网络的输出（独热编码的形式）；同时标签还需是LongTensor格式，默认新建的似乎是FloatTensor格式
 
 # Task 3
+
+
 
 # Task 4
 
