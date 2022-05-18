@@ -94,6 +94,8 @@ for epoch in range(10):  # loop over the dataset multiple times
         loss.backward()
         optimizer.step()
 
+        print('Step ',i,' Completed!');
+
         # print statistics
         running_loss += loss.item()
         if i % 100 == 99:    # print every 2000 mini-batches

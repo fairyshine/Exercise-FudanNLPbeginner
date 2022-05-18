@@ -8,6 +8,8 @@
 
 # Task 1 NumPy文本分类
 
+## 分析
+
 多分类问题（分成5类）C=5
 
 数据集：Kaggle 影评情感分析  
@@ -42,6 +44,8 @@ omega，5个权重向量，长度V
 
 ---
 
+## 实战
+
 特征表示.ipynb
 
 处理原数据集内容，获取特征，保存至list1.csv，list2.csv，list3.csv
@@ -62,6 +66,10 @@ shuffle ：打乱序列里的元素，随机排列
 
 ---
 
+## 总结
+
+效果只有0.44   : (  ，很差
+
 改进：
 
 1.数据集的存取方式，pandas.DataFrame有些细节没处理好
@@ -75,6 +83,8 @@ shuffle ：打乱序列里的元素，随机排列
 由于之后主要采用各类框架，任务1不准备作进一步优化了。
 
 # Task 2 
+
+## 分析
 
 PyTorch重写Task1
 
@@ -94,6 +104,8 @@ PyTorch重写Task1
 （3）训练
 
 ---
+
+## 实战
 
 ### Dataprocess.ipynb 处理数据集
 
@@ -161,13 +173,19 @@ print(max)
 
  据分析：Phrase最大句长为52，故设置矩阵高度为60
 
-经验总结：
+## 总结
+
+经验：
 
 （1）使用nn.Embedding将单词（.lower()小写化）转化为embedding格式
 
 （2）神经网络结构是比较简单的，注意因为卷积核是4维的，数据输入也应该是4维。
 
 （3）注意torch包内各函数接口采用的数据格式！！比如nn.CrossEntropyLoss()，标签必须是一维的，而非神经网络的输出（独热编码的形式）；同时标签还需是LongTensor格式，默认新建的似乎是FloatTensor格式
+
+很好的项目，可供参考：
+
+https://github.com/649453932/Chinese-Text-Classification-Pytorch
 
 # Task 3
 
