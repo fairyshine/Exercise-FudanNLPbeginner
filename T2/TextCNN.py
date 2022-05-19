@@ -102,15 +102,17 @@ for epoch in range(10):  # loop over the dataset multiple times
             print('[%d, %5d] loss: %.3f' %(epoch + 1, i + 1, running_loss / 100))
             running_loss = 0.0
 
-    correct=0
-    total=0
-    for data in test_loader:
-        inputs,labels=data
-        outputs=net(inputs)
-        _,predicted=torch.max(outputs.data,1)
-        total += labels.size(0)
-        correct += (predicted == labels).sum()
-    print("Epoch:",epoch,'Accuracy:',1.0*correct/total)
+    with torch.no_grad():
+        correct=0
+        total=0
+        net.eval()
+        for data in test_loader:
+            inputs,labels=data
+            outputs=net(inputs)
+            _,predicted=torch.max(outputs.data,1)
+            total += labels.size(0)
+            correct += (predicted == labels).sum()
+        print("Epoch:",epoch,'Accuracy:',1.0*correct/total)
 
 print('Finished Training')
 
