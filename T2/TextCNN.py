@@ -4,6 +4,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+#device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+#print(device)
 
 word_To_num={}
 num_To_word={}
@@ -26,24 +28,26 @@ with open('Dataset/test.jsonl','r') as f:
         for line in f:
             test_list.append(json.loads(line))
 
-train_data_tensor=torch.zeros((140454,1,60,5))
+train_data_tensor=torch.zeros((140454,60))
 train_target_tensor=torch.zeros((140454))
 
-test_data_tensor=torch.zeros((15606,1,60,5))
+test_data_tensor=torch.zeros((15606,60))
 test_target_tensor=torch.zeros((15606))
-
-embeds = nn.Embedding(19479, 5)
 
 for i in range(0,len(train_list)):
     phrase=train_list[i]["Phrase"].split(' ');
     for j in range(0,len(phrase)):
-        train_data_tensor[i][0][j]=embeds(torch.LongTensor([word_To_num[phrase[j].lower()]]))
+        train_data_tensor[i][j]=torch.LongTensor([word_To_num[phrase[j].lower()]])
+    for j in range(len(phrase),60):
+        train_data_tensor[i][j]=torch.LongTensor([19478])
     train_target_tensor[i]=train_list[i]["Sentiment"]
 
 for i in range(0,len(test_list)):
     phrase=test_list[i]["Phrase"].split(' ');
     for j in range(0,len(phrase)):
-        test_data_tensor[i][0][j]=embeds(torch.LongTensor([word_To_num[phrase[j].lower()]]))
+        test_data_tensor[i][j]=torch.LongTensor([word_To_num[phrase[j].lower()]])
+    for j in range(len(phrase),60):
+        test_data_tensor[i][j]=torch.LongTensor([19478])
     test_target_tensor[i]=test_list[i]["Sentiment"]
 
 train_target_tensor=train_target_tensor.long()
@@ -58,10 +62,11 @@ test_loader = torch.utils.data.DataLoader(test_dataset,batch_size=100,shuffle=Tr
 class TextCNN(nn.Module):
     def __init__(self):
         super(TextCNN, self).__init__()
+        self.embedding = nn.Embedding(19479,5)
         self.convs = nn.ModuleList(
-            [nn.Conv2d(1,16,(k,5)) for k in (2,3,4)])
+            [nn.Conv2d(1,1,(k,5)) for k in (2,3,4)])
         self.dropout = nn.Dropout(0.5)
-        self.fc = nn.Linear(16*3, 5)
+        self.fc = nn.Linear(1*3, 5)
 
     def conv_and_pool(self, x, conv):
         x = F.relu(conv(x)).squeeze(3)
@@ -69,36 +74,37 @@ class TextCNN(nn.Module):
         return x
 
     def forward(self, x):
-        out = torch.cat([self.conv_and_pool(x, conv) for conv in self.convs], 1)
+        out = self.embedding(x.long())
+        out = out.unsqueeze(1)
+        out = torch.cat([self.conv_and_pool(out, conv) for conv in self.convs], 1)
         out = self.dropout(out)
         out = self.fc(out)
         return out
 
 net = TextCNN()
+#net = net.to(device)
 
 criterion = nn.CrossEntropyLoss()
+#criterion = criterion.to(device)
 optimizer = torch.optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
 
-for epoch in range(10):  # loop over the dataset multiple times
+for epoch in range(500):  # loop over the dataset multiple times
     running_loss = 0.0
-    for i, data in enumerate(train_loader, start=0):
-        # get the inputs; data is a list of [inputs, labels]
-        inputs, labels = data
+    for i, (inputs, labels) in enumerate(train_loader, start=0):
+        #inputs=inputs.to(device)
+        #labels=labels.to(device)
 
-        # zero the parameter gradients
-        optimizer.zero_grad()
-
-        # forward + backward + optimize
         outputs = net(inputs)
+        optimizer.zero_grad()
         loss = criterion(outputs, labels)
         loss.backward()
         optimizer.step()
 
-        print('Step ',i,' Completed!');
+        print('Step ',i,' Completed!  loss this time: ',loss.item());
 
         # print statistics
         running_loss += loss.item()
-        if i % 100 == 99:    # print every 2000 mini-batches
+        if i % 100 == 99:    # print every 100 mini-batches
             print('[%d, %5d] loss: %.3f' %(epoch + 1, i + 1, running_loss / 100))
             running_loss = 0.0
 
@@ -106,8 +112,9 @@ for epoch in range(10):  # loop over the dataset multiple times
         correct=0
         total=0
         net.eval()
-        for data in test_loader:
-            inputs,labels=data
+        for (inputs,labels) in test_loader:
+            #inputs=inputs.to(device)
+            #labels=labels.to(device)
             outputs=net(inputs)
             _,predicted=torch.max(outputs.data,1)
             total += labels.size(0)

@@ -154,7 +154,7 @@ PyTorch重写Task1
 
 ---
 
-### TextCNN.pynb 
+### TextCNN.py
 
 ![TextCNN](pic/TextCNN.png)
 
@@ -181,7 +181,7 @@ print(max)
 
 （2）神经网络结构是比较简单的，注意因为卷积核是4维的，数据输入也应该是4维。
 
-（3）注意torch包内各函数接口采用的数据格式！！比如nn.CrossEntropyLoss()，标签必须是一维的，而非神经网络的输出（独热编码的形式）；同时标签还需是LongTensor格式，默认新建的似乎是FloatTensor格式
+（3）注意torch包内各函数接口采用的数据格式！！比如nn.CrossEntropyLoss()，标签必须是一维的，而非神经网络的输出（独热编码的形式）；同时标签还需是LongTensor格式，默认新建的似乎是FloatTensor格式。
 
 很好的项目，可供参考：
 
@@ -189,8 +189,77 @@ https://github.com/649453932/Chinese-Text-Classification-Pytorch
 
 # Task 3
 
+## 分析
+
+输入两个句子判断，判断它们之间的关系。参考ESIM（可以只用LSTM，忽略Tree-LSTM），用双向的注意力机制实现。
+
+参考《神经网络与深度学习》第8章 注意力机制
+
+文本蕴含识别（Recognizing textual entailment， RTE)
+
+判断三种关系：
+
+- Neutral （不相关）
+- Contradiction（矛盾）
+- Entailment （蕴含）
+
+1. 注意力机制
+
+​		（1）在所有输入信息上计算**注意力分布**
+
+​		（2）根据**注意力分布**来计算输入信息的**加权平均**
+
+2. token2token attetnion
+
+### 数据集：斯坦福NLI
+
+```json
+{
+	"annotator_labels":[" "],
+	"captionID":" ",
+	"gold_label":" ",
+	"pairID":" ",
+	"sentence1":" ",
+	"sentence1_binary_parse":" ",
+	"sentence1_parse":" ",
+	"sentence2":" ",
+	"sentence2_binary_parse":" ",
+	"sentence2_parse":" "
+}
+```
+
+
+
+## 实战
+
+
+
+## 总结
+
 
 
 # Task 4
 
+## 分析
+
+
+
+## 实战
+
+
+
+## 总结
+
+
+
 # Task 5
+
+## 分析
+
+
+
+## 实战
+
+
+
+## 总结
