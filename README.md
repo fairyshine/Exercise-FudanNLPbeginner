@@ -173,6 +173,18 @@ print(max)
 
  据分析：Phrase最大句长为52，故设置矩阵高度为60
 
+### 其余
+
+#### TestModel.py
+
+通过print查看训练流程中数据流动的格式变化，供初学者参考
+
+#### 应用/
+
+模型的使用示例
+
+将TextCNN的代码框架初步搭建起来，应用在CCKS2022中Task8的比赛里
+
 ## 总结
 
 经验：
@@ -213,11 +225,21 @@ https://github.com/649453932/Chinese-Text-Classification-Pytorch
 
 ### 数据集：斯坦福NLI
 
+去除数据集中分类模糊的条目
+
+train 550152条 —>549367条
+
+dev  10000条 —> 9842条
+
+test  10000条—> 9824条
+
 ```json
 {
-	"annotator_labels":[" "],
+	"annotator_labels":[" "], //列表，可能含多个
+  //列表元素有4种：'entailment','contradiction','neutral',''
 	"captionID":" ",
 	"gold_label":" ",
+  //4种情况，'entailment','contradiction','neutral','-'
 	"pairID":" ",
 	"sentence1":" ",
 	"sentence1_binary_parse":" ",

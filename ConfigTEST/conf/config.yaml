@@ -1,0 +1,4 @@
+defaults:
+  - basic: basic
+  - override hydra/job_logging: none
+  - override hydra/hydra_logging: none

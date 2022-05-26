@@ -74,11 +74,17 @@ class TextCNN(nn.Module):
         return x
 
     def forward(self, x):
+        print('数据x：',x,'，格式：',x.size(),'开始正向传播！') #torch.Size([100, 60])
         out = self.embedding(x.long())
+        print('数据out：',out,'，格式：',out.size(),'从embddding层输出！') #torch.Size([100, 60, 5])
         out = out.unsqueeze(1)
+        print('数据out：',out,'，格式：',out.size(),'从unsqueeze输出！') #torch.Size([100, 1, 60, 5])
         out = torch.cat([self.conv_and_pool(out, conv) for conv in self.convs], 1)
+        print('数据out：',out,'，格式：',out.size(),'从cat输出！') #torch.Size([100, 3])
         out = self.dropout(out)
+        print('数据out：',out,'，格式：',out.size(),'从dropout输出！') #torch.Size([100, 3])
         out = self.fc(out)
+        print('数据out：',out,'，格式：',out.size(),'从fc输出！') #torch.Size([100, 5])
         return out
 
 net = TextCNN()
@@ -91,6 +97,9 @@ optimizer = torch.optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
 for epoch in range(500):  # loop over the dataset multiple times
     running_loss = 0.0
     for i, (inputs, labels) in enumerate(train_loader, start=0):
+        print('DataLoader输入数据！！')
+        print('输入模型的数据：',inputs,' 格式：',inputs.size()) #torch.Size([100, 60])
+        print('提前标注的数据：',labels,' 格式：',labels.size()) #torch.Size([100])
         #inputs=inputs.to(device)
         #labels=labels.to(device)
 
@@ -107,6 +116,8 @@ for epoch in range(500):  # loop over the dataset multiple times
         if i % 100 == 99:    # print every 100 mini-batches
             print('[%d, %5d] loss: %.3f' %(epoch + 1, i + 1, running_loss / 100))
             running_loss = 0.0
+
+        print('DataLoader一次运算完成！！')
 
     with torch.no_grad():
         correct=0
