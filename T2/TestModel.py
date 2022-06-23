@@ -74,7 +74,7 @@ class TextCNN(nn.Module):
         return x
 
     def forward(self, x):
-        print('数据x：',x,'，格式：',x.size(),'开始正向传播！') #torch.Size([100, 60])
+        print('数据x：',x,'，格式：',x.size(),'开始正向传播！') #torch.Size([100, 60])  句子数100   最大句长60
         out = self.embedding(x.long())
         print('数据out：',out,'，格式：',out.size(),'从embddding层输出！') #torch.Size([100, 60, 5])
         out = out.unsqueeze(1)
