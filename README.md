@@ -2,9 +2,9 @@
 
 # Exercise-FudanNLPbeginner
 
-复旦邱锡鹏老师的自然语言处理入门练习作业
+复旦邱锡鹏老师的自然语言处理入门练习作业💻
 
-
+写的过程中参考了不少资料，在此一并感谢🙏！
 
 # Task 1 NumPy文本分类
 
@@ -82,7 +82,7 @@ shuffle ：打乱序列里的元素，随机排列
 
 由于之后主要采用各类框架，任务1不准备作进一步优化了。
 
-# Task 2 
+# Task 2  TextCNN文本分类
 
 ## 分析
 
@@ -199,7 +199,7 @@ print(max)
 
 https://github.com/649453932/Chinese-Text-Classification-Pytorch
 
-# Task 3
+# Task 3 文本匹配ESIM
 
 ## 分析
 
@@ -250,25 +250,46 @@ test  10000条—> 9824条
 }
 ```
 
-
-
 ## 实战
 
-
+参考 https://github.com/zhaogaofeng611/TextMatch 构建了ESIM的代码框架
 
 ## 总结
 
-
+注意力机制是该任务的安排的核心知识吧，算是Transformer的一个重要组成。
 
 # Task 4
 
+### 任务四：基于LSTM+CRF的序列标注
+
+用LSTM+CRF来训练序列标注模型：以Named Entity Recognition为例。
+
+1. 参考
+   1. 《[神经网络与深度学习](https://nndl.github.io/)》 第6、11章
+   2. https://arxiv.org/pdf/1603.01354.pdf
+   3. https://arxiv.org/pdf/1603.01360.pdf
+2. 数据集：CONLL 2003，https://www.clips.uantwerpen.be/conll2003/ner/
+3. 实现要求：Pytorch
+4. 知识点：
+   1. 评价指标：precision、recall、F1
+   2. 无向图模型、CRF
+5. 时间：两周
+
 ## 分析
+
+原始数据集似乎要找路透社发邮件申请？太麻烦了，
+
+[ningshixian](https://github.com/ningshixian)/**[NER-CONLL2003](https://github.com/ningshixian/NER-CONLL2003)**  使用了此处提供的数据集
 
 
 
 ## 实战
 
+参考了pytorch官方教程里的代码加以改进优化
 
+https://pytorch.org/tutorials/beginner/nlp/advanced_tutorial.html#bi-lstm-conditional-random-field-discussion
+
+{"B-PER": 0, "I-PER": 1, "B-LOC": 2, "I-LOC": 3, "B-MISC": 4, "I-MISC": 5, "B-ORG": 6, "I-ORG": 7, "O": 8, "<START>": 9, "<STOP>": 10}
 
 ## 总结
 
@@ -276,12 +297,45 @@ test  10000条—> 9824条
 
 # Task 5
 
+### 任务五：基于神经网络的语言模型
+
+用LSTM、GRU来训练字符级的语言模型，计算困惑度
+
+1. 参考
+   1. 《[神经网络与深度学习](https://nndl.github.io/)》 第6、15章
+2. 数据集：poetryFromTang.txt
+3. 实现要求：Pytorch
+4. 知识点：
+   1. 语言模型：困惑度等
+   2. 文本生成
+
 ## 分析
 
+数据集已给出，简单纠个错就能用
 
+模型结构也十分简单，虽然是最后一个任务，没太多难点分析。
+
+可参考作业案例——Reference.ipynb
+
+- 用LSTM、GRU来训练字符级的语言模型 https://zhuanlan.zhihu.com/p/356147399
+- GRU模式没有问题，LSTM模式因h0不对，会报错。需要分别设置。
 
 ## 实战
 
-
+1. 词嵌入层
+2. LSTM/GRU的RNN层
+3. 全连接层
 
 ## 总结
+
+比较传统的语言模型，2018年后Bert出来后就实战作用不大了。
+
+# 附加
+
+## ConfigTEST/
+
+研究了参数管理的3类方法，作以记录。
+
+## RichTEST/
+
+研究使用rich库改良命令行打印的简单进度条

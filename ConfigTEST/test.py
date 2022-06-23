@@ -5,10 +5,12 @@ import hydra
 #参数管理的3种方法
 
 # 1. Hydra + omegaconf
+
 @hydra.main(version_base=None, config_path="conf", config_name="config")
 def main(cfg: DictConfig) -> None:
     print(OmegaConf.to_yaml(cfg))
     print(cfg.basic.another.value4)
+
 
 # 2. omegaconf
 basic = OmegaConf.load('conf/basic/basic.yaml')

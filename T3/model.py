@@ -9,7 +9,7 @@ from layers import RNNDropout, Seq2SeqEncoder, SoftmaxAttention
 不具有学习参数的放在forward中使用nn.functional代替
 """
 class ESIM(nn.Module):
-    def __init__(self, hihdden_size, vocab_nums=None, dropout=0.5, num_classes=2, device="gpu"):
+    def __init__(self, hihdden_size, vocab_nums, dropout=0.5, num_classes=2, device="gpu"):
         super(ESIM, self).__init__()
         self.embedding_dim = 5
         self.hidden_size = hihdden_size

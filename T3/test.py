@@ -7,11 +7,11 @@ Created on Thu Mar 12 22:46:32 2020
 import torch
 from sys import platform
 from torch.utils.data import DataLoader
-from data import LCQMC_Dataset, load_embeddings
+from data import getDataset
 from model import ESIM
 from utils import test
 
-def main(test_file, vocab_file, embeddings_file, pretrained_file, max_length=50, gpu_index=0, batch_size=128):
+def main(test_file, vocab_file, vocab_nums, pretrained_file, max_length=50, gpu_index=0, batch_size=128):
     """
     Test the ESIM model with pretrained weights on some dataset.
     Args:
@@ -36,12 +36,11 @@ def main(test_file, vocab_file, embeddings_file, pretrained_file, max_length=50,
     # Retrieving model parameters from checkpoint.
     hidden_size = checkpoint["model"]["projection.0.weight"].size(0)
     num_classes = checkpoint["model"]["classification.6.weight"].size(0)
-    embeddings = load_embeddings(embeddings_file)
     print("\t* Loading test data...")
-    test_data = LCQMC_Dataset(test_file, vocab_file, max_length)
+    test_data = getDataset(test_file, vocab_file, max_length)
     test_loader = DataLoader(test_data, shuffle=True, batch_size=batch_size)
     print("\t* Building model...")
-    model = ESIM(hidden_size, embeddings=embeddings, num_classes=num_classes, device=device).to(device)
+    model = ESIM(hidden_size, vocab_nums=vocab_nums, num_classes=num_classes, device=device).to(device)
     model.load_state_dict(checkpoint["model"])
     print(20 * "=", " Testing ESIM model on device: {} ".format(device), 20 * "=")
     batch_time, total_time, accuracy, auc = test(model, test_loader)
@@ -49,4 +48,4 @@ def main(test_file, vocab_file, embeddings_file, pretrained_file, max_length=50,
 
 
 if __name__ == "__main__":
-    main("../data/LCQMC_test.csv", "../data/vocab.txt", "../data/token_vec_300.bin", "models/best.pth.tar")
+    main("../data/LCQMC_test.csv", "../data/vocab.txt",57323, "models_save/best.pth.tar")

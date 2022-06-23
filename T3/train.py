@@ -70,8 +70,7 @@ def main(train_file, dev_file, vocab_file, target_dir,vocab_nums,
     for epoch in range(start_epoch, epochs + 1):
         epochs_count.append(epoch)
         print("* Training epoch {}:".format(epoch))
-        epoch_time, epoch_loss, epoch_accuracy = train(model, train_loader, optimizer,
-                                                       criterion, epoch, max_grad_norm)
+        epoch_time, epoch_loss, epoch_accuracy = train(model, train_loader, optimizer,criterion, epoch, max_grad_norm)
         train_losses.append(epoch_loss)
         print("-> Training time: {:.4f}s, loss = {:.4f}, accuracy: {:.4f}%"
               .format(epoch_time, epoch_loss, (epoch_accuracy*100)))

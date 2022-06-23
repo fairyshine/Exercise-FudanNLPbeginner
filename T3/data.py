@@ -55,8 +55,7 @@ def word_index(p_sentences, h_sentences, word2idx, max_char_len):
     return p_list, p_length, h_list, h_length
 
 
-def pad_sequences(sequences, maxlen=None, dtype='int32', padding='post',
-                  truncating='post', value=0.):
+def pad_sequences(sequences, maxlen=None, dtype='int32', padding='post',truncating='post', value=0.):
     """ pad_sequences
     把序列长度转变为一样长的，如果设置了maxlen则长度统一为maxlen，如果没有设置则默认取
     最大的长度。填充和截取包括两种方法，post与pre，post指从尾部开始处理，pre指从头部
